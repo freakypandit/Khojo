@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 import os.path
 import sqlite3
 
-conn = sqlite3.connect("Teachers.db") 
+conn = sqlite3.connect("Test.db") 
 c = conn.cursor()
 
 
@@ -44,7 +44,7 @@ def writeTofile(data, filename):
 
 
 def read_blob_data(name, fathername, dob):
-   conn = sqlite3.connect('Teachers.db') 
+   conn = sqlite3.connect('Test.db') 
    c = conn.cursor()
    sqlite_select_query = "SELECT * from Teachers_Records where fullname=? and fathername=? and dob=?"
    c.execute(sqlite_select_query, (name, fathername, dob,))
@@ -61,25 +61,16 @@ def read_blob_data(name, fathername, dob):
 
       username = os.getlogin()
 
-      #TODO: create a document viewer
-      DOCUMENT_PATH = os.getcwd()
-
-      with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as f:
-         f.write(document_blob)
-      subprocess.Popen([DOCUMENT_PATH, f.name])
-      if os.path.exists(f.name):
-        os.unlink(f.name)
-
-      #document_path = f"C:\\Users\\{username}\\Downloads\\{name}_{dob}.pdf"
-      #writeTofile(document_blob, document_path)
-      #sg.PopupQuick("Downloaded the document!")
+      document_path = f"C:\\Users\\{username}\\Downloads\\{name}_{dob}.pdf"
+      writeTofile(document_blob, document_path)
+      sg.PopupQuick("Downloaded the document!")
 
    c.close()
 
 
 def retrive_patient_records():
    results = []
-   conn = sqlite3.connect('Teachers.db') 
+   conn = sqlite3.connect('Test.db') 
    c = conn.cursor()
    sqlite_select_query = "SELECT fullname, fathername, dob from Teachers_Records"
    c.execute(sqlite_select_query) 
@@ -165,7 +156,7 @@ def convertToBinaryData(filepath):
    return blobData
 
 def save_data_to_database(fullname, fathername, dob, filepath):
-   conn = sqlite3.connect("Teachers.db") 
+   conn = sqlite3.connect("Test.db") 
    c = conn.cursor()
 
    ## commit the changes
